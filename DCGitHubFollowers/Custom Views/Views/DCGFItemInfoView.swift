@@ -1,5 +1,5 @@
 //
-//  DCGCItemInfoView.swift
+//  DCGFItemInfoView.swift
 //  DCGitHubFollowers
 //
 //  Created by Daniel on 26/07/20.
@@ -12,7 +12,7 @@ enum ItemInfoType {
     case repos, gists, followers, following
 }
 
-class DCGCItemInfoView: UIView {
+class DCGFItemInfoView: UIView {
 
     let symbolImageView                 = UIImageView()
     let titleLabel                      = DCGFTitleLabel(textAlignment: .left, fontSize: 14)
