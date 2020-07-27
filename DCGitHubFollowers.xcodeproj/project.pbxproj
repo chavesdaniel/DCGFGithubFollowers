@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6518397D24CF569E00EF2586 /* DCGFItemInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6518397C24CF569E00EF2586 /* DCGFItemInfoVC.swift */; };
+		65252C4724CE526A0025333E /* DCGFItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65252C4624CE526A0025333E /* DCGFItemInfoView.swift */; };
 		6545F4F924CA39B100BE48AB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6545F4F824CA39B100BE48AB /* AppDelegate.swift */; };
 		6545F4FB24CA39B100BE48AB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6545F4FA24CA39B100BE48AB /* SceneDelegate.swift */; };
 		6545F50224CA39B300BE48AB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6545F50124CA39B300BE48AB /* Assets.xcassets */; };
@@ -35,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6518397C24CF569E00EF2586 /* DCGFItemInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCGFItemInfoVC.swift; sourceTree = "<group>"; };
+		65252C4624CE526A0025333E /* DCGFItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DCGFItemInfoView.swift; sourceTree = "<group>"; };
 		6545F4F524CA39B100BE48AB /* DCGitHubFollowers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DCGitHubFollowers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6545F4F824CA39B100BE48AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6545F4FA24CA39B100BE48AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				65554CA024CDCEEC00B6163C /* DCGFEmptyView.swift */,
+				65252C4624CE526A0025333E /* DCGFItemInfoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -196,6 +201,7 @@
 			children = (
 				65553C0524CBC27D00A3819F /* DCGFAlertVC.swift */,
 				65554CA424CE159B00B6163C /* DCGFUserInfoHeaderVC.swift */,
+				6518397C24CF569E00EF2586 /* DCGFItemInfoVC.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -306,6 +312,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65252C4724CE526A0025333E /* DCGFItemInfoView.swift in Sources */,
+				6518397D24CF569E00EF2586 /* DCGFItemInfoVC.swift in Sources */,
 				65554CA724CE164E00B6163C /* DCGFSecondaryTitleLabel.swift in Sources */,
 				65553C1824CBF2F500A3819F /* User.swift in Sources */,
 				6545F51124CA63B400BE48AB /* DCGFButton.swift in Sources */,
