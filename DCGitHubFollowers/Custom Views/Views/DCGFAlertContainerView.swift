@@ -1,34 +1,31 @@
 //
-//  DCGFAvatarImageView.swift
+//  DCGFAlertContainerView.swift
 //  DCGitHubFollowers
 //
-//  Created by Daniel on 25/07/20.
+//  Created by Daniel on 30/07/20.
 //  Copyright © 2020 Daniel. All rights reserved.
 //
 
 import UIKit
 
-class DCGFAvatarImageView: UIImageView {
+class DCGFAlertContainerView: UIView {
 
-    let cache               = NetworkManager.shared.cache
-    let placeHolderImage    = Images.placeholder
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
     }
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    
     private func configure() {
-        layer.cornerRadius  = 10
-        clipsToBounds       = true
-        image               = placeHolderImage
+        backgroundColor       = .systemBackground
+        layer.cornerRadius    = 16
+        layer.borderWidth     =  2
+        layer.borderColor     = UIColor.white.cgColor
         translatesAutoresizingMaskIntoConstraints = false
     }
     

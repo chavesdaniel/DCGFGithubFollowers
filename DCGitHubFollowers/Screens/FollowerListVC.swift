@@ -8,7 +8,11 @@
 
 import UIKit
 
-class FollowerListVC: UIViewController {
+protocol FollowerListVCDelegate: class {
+    func didRequestFollowers(for username: String)
+}
+
+class FollowerListVC: DCGFDataLodingVC {
     
     enum Section { case main }
     
@@ -18,9 +22,20 @@ class FollowerListVC: UIViewController {
     var page                = 1
     var hasMoreFollowers    = true
     var isSearching         = false
+    var isSearchingForMoreFollowers = false
     
     var collectionView      : UICollectionView!
     var dataSource          : UICollectionViewDiffableDataSource<Section, Follower>!
+    
+    init(username: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.username       = username
+        title               = username
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +55,8 @@ class FollowerListVC: UIViewController {
     func configureViewController() {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
+        let plusButton                      = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonTapped))
+        navigationItem.rightBarButtonItem   = plusButton
     }
     
     
@@ -57,7 +74,6 @@ class FollowerListVC: UIViewController {
     func configureSearchController() {
         let searchController                                    = UISearchController()
         searchController.searchResultsUpdater                   = self
-        searchController.searchBar.delegate                     = self
         searchController.searchBar.placeholder                  = "search username"
         searchController.obscuresBackgroundDuringPresentation   = false
         navigationItem.searchController                         = searchController
@@ -67,6 +83,7 @@ class FollowerListVC: UIViewController {
     
     func getFollowers(username: String, page: Int) {
         showLoadingView()
+        isSearchingForMoreFollowers = true
         NetworkManager.shared.getFollowers(for: username, page: page, completed: { [weak self] result in
             guard let self = self else { return }
             self.dismissLoadingView()
@@ -87,6 +104,8 @@ class FollowerListVC: UIViewController {
                 self.presentDCGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTittle: "OK")
                 break
             }
+            
+            self.isSearchingForMoreFollowers = false
             
         })
     }
@@ -109,6 +128,38 @@ class FollowerListVC: UIViewController {
         DispatchQueue.main.async { self.dataSource.apply(snapshot, animatingDifferences: true) }
     }
     
+    
+    @objc func addButtonTapped() {
+        
+        showLoadingView()
+        
+        NetworkManager.shared.getUserInfo(for: username) { [weak self] result in
+            guard let self = self else { return }
+            self.dismissLoadingView()
+            
+            switch result {
+            case .success(let user):
+                
+                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+                
+                PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] err in
+                    guard let self = self else { return }
+                    
+                    guard let err = err else {
+                        self.presentDCGFAlertOnMainThread(title: "Success", message: "You have successfully favored this user 🎉.", buttonTittle: "Hooray!")
+                        return
+                    }
+                    
+                    self.presentDCGFAlertOnMainThread(title: "Something went wrong", message: err.rawValue, buttonTittle: "OK")
+                }
+                
+            case .failure(let err):
+                self.presentDCGFAlertOnMainThread(title: "Something went wrong", message: err.rawValue, buttonTittle: "Ok")
+            }
+        }
+    }
+    
+    
 }
 
 
@@ -120,7 +171,7 @@ extension FollowerListVC: UICollectionViewDelegate {
         let height              = scrollView.frame.size.height
         
         if offsetY > contentHight - height {
-            guard hasMoreFollowers else { return }
+            guard hasMoreFollowers, !isSearchingForMoreFollowers else { return }
             
             page += 1
             getFollowers(username: username, page: page)
@@ -133,6 +184,7 @@ extension FollowerListVC: UICollectionViewDelegate {
         
         let destVC          = UserInfoVC()
         destVC.username     = follower.login
+        destVC.delegate     = self
         let navController   = UINavigationController(rootViewController: destVC)
         
         present(navController, animated: true)
@@ -140,10 +192,16 @@ extension FollowerListVC: UICollectionViewDelegate {
     
 }
 
-extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
+extension FollowerListVC: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         guard let filter = searchController.searchBar.text,
-            !filter.isEmpty else { return }
+            !filter.isEmpty else {
+                filteredFollowers.removeAll()
+                updateData(on: followers)
+                isSearching = false
+                return
+                
+        }
         
         isSearching         = true
         filteredFollowers   = followers.filter { $0.login.lowercased().contains(filter.lowercased()) }
@@ -152,8 +210,17 @@ extension FollowerListVC: UISearchResultsUpdating, UISearchBarDelegate {
         
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        isSearching         = false
-        updateData(on: followers)
+
+}
+
+extension FollowerListVC: FollowerListVCDelegate {
+    func didRequestFollowers(for username: String) {
+        self.username   = username
+        title           = username
+        page            = 1
+        followers.removeAll()
+        filteredFollowers.removeAll()
+        collectionView.scrollToItem(at: IndexPath(item:0 , section: 0), at: .top, animated: true)
+        getFollowers(username: username, page: page)
     }
 }

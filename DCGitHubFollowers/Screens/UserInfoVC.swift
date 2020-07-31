@@ -8,14 +8,22 @@
 
 import UIKit
 
+protocol UserInfoVCDelegate: class {
+    func didTapGitHubProfile(for user: User)
+    func didTapGetFollowers(for user: User)
+}
+    
+
 class UserInfoVC: UIViewController {
     
     let headerView              = UIView()
     let itemViewOne             = UIView()
     let itemViewTwo             = UIView()
+    let dateLabel               = DCGFBodyLabel(textAlignment: .center)
 
     var itemViews: [UIView]     = []
     var username: String!
+    weak var delegate:          FollowerListVCDelegate!
 
     
     override func viewDidLoad() {
@@ -40,11 +48,7 @@ class UserInfoVC: UIViewController {
             switch result {
                 
             case .success(let user):
-                
-                DispatchQueue.main.async {
-                    self.add(childVC: DCGFUserInfoHeaderVC(user: user), to: self.headerView)
-                }
-                
+                DispatchQueue.main.async { self.configureUIElementsWith(user: user) }
                 break
             case .failure(let error):
                 self.presentDCGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTittle: "OK")
@@ -54,9 +58,24 @@ class UserInfoVC: UIViewController {
         }
     }
     
+    func configureUIElementsWith(user: User) {
+        
+        let repoItemVC          = DCGFRepoItemVC(user: user)
+        repoItemVC.delegate     = self
+        
+        let followerItemVC      = DCGFFollowerItemVC(user: user)
+        followerItemVC.delegate = self
+        
+        self.add(childVC: repoItemVC, to: self.itemViewOne)
+        self.add(childVC: followerItemVC, to: self.itemViewTwo)
+        self.add(childVC: DCGFUserInfoHeaderVC(user: user), to: self.headerView)
+        
+        self.dateLabel.text = "GitHub since \(user.createdAt.convertToMonthYearFormat())"
+    }
+    
     
     func layoutUI() {
-        itemViews               = [headerView, itemViewOne, itemViewTwo]
+        itemViews               = [headerView, itemViewOne, itemViewTwo, dateLabel]
         let padding: CGFloat    = 20
         let itemHeight: CGFloat = 140
         
@@ -70,9 +89,6 @@ class UserInfoVC: UIViewController {
                 
             ])
         }
-        
-        itemViewOne.backgroundColor = .systemPink
-        itemViewTwo.backgroundColor = .systemBlue
                 
         NSLayoutConstraint.activate([
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -82,7 +98,10 @@ class UserInfoVC: UIViewController {
             itemViewOne.heightAnchor.constraint(equalToConstant: itemHeight),
             
             itemViewTwo.topAnchor.constraint(equalTo: itemViewOne.bottomAnchor, constant: padding),
-            itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight)
+            itemViewTwo.heightAnchor.constraint(equalToConstant: itemHeight),
+            
+            dateLabel.topAnchor.constraint(equalTo: itemViewTwo.bottomAnchor, constant: padding),
+            dateLabel.heightAnchor.constraint(equalToConstant: 18)
             
         ])
         
@@ -100,8 +119,30 @@ class UserInfoVC: UIViewController {
     @objc func dismissVC() {
         dismiss(animated: true)
     }
-    
-    
-    
 
+}
+
+extension UserInfoVC: UserInfoVCDelegate {
+    
+    func didTapGitHubProfile(for user: User) {
+        guard let url = URL(string: user.htmlUrl) else {
+            presentDCGFAlertOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid.", buttonTittle: "Ok")
+            return
+        }
+        
+        self.presentSafariVC(with: url)
+        
+    }
+    
+    func didTapGetFollowers(for user: User) {
+        
+        guard user.followers != 0 else {
+            presentDCGFAlertOnMainThread(title: "No followers", message: "This user has no followers. What a shame 😞", buttonTittle: "So sad")
+            return
+        }
+        
+        delegate.didRequestFollowers(for: user.login)
+        dismissVC()
+    }
+    
 }
