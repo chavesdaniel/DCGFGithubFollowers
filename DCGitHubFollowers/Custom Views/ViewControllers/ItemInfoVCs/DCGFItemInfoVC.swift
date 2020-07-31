@@ -17,7 +17,6 @@ class DCGFItemInfoVC: UIViewController {
     let actionButton        = DCGFButton()
     
     var user                : User!
-    weak var delegate       : UserInfoVCDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,8 +61,7 @@ class DCGFItemInfoVC: UIViewController {
     
 
     private func layoutUI() {
-        view.addSubview(stackView)
-        view.addSubview(actionButton)
+        view.addSubviews(stackView, actionButton)
         
         stackView.translatesAutoresizingMaskIntoConstraints = false
         let padding: CGFloat = 20

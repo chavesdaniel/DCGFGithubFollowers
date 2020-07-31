@@ -45,7 +45,7 @@ class DCGFAlertVC: UIViewController {
     
     
     func configureContainerView() {
-        view.addSubview(containerView)
+        view.addSubviews(containerView, titleLable)
         
         NSLayoutConstraint.activate([
             containerView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 0),
@@ -56,7 +56,6 @@ class DCGFAlertVC: UIViewController {
     }
     
     func configureTitleLabel() {
-        containerView.addSubview(titleLable)
         titleLable.text = alertTitle ?? "!! Title not configured !!"
         NSLayoutConstraint.activate([
             titleLable.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
