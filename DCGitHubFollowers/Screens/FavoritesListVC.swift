@@ -60,6 +60,7 @@ class FavoritesListVC: DCGFDataLodingVC {
         tableView.rowHeight     = 80
         tableView.delegate      = self
         tableView.dataSource    = self
+        tableView.removeExcessesCells()
         
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.reuseID)
     }
@@ -102,14 +103,16 @@ extension FavoritesListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
         
-        let favorite    = favorites[indexPath.row]
-        
-        favorites.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .left)
-        
-        PersistenceManager.updateWith(favorite: favorite, actionType: .remove) { [weak self] err in
-            guard let self = self else { return }
-            guard let err = err else { return }
+        PersistenceManager.updateWith(favorite: favorites[indexPath.row], actionType: .remove) { [weak self] err in
+            guard let self  = self else { return }
+            
+            guard let err   = err  else {
+                
+                self.favorites.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+                
+                return
+            }
             
             self.presentDCGFAlertOnMainThread(title: "Unable to remove", message: err.rawValue, buttonTittle: "Ok")
         }
