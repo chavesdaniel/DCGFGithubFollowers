@@ -10,6 +10,7 @@ import UIKit
 
 class DCGFAlertContainerView: UIView {
 
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configure()
@@ -28,5 +29,6 @@ class DCGFAlertContainerView: UIView {
         layer.borderColor     = UIColor.white.cgColor
         translatesAutoresizingMaskIntoConstraints = false
     }
+    
     
 }

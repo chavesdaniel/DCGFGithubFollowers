@@ -9,9 +9,12 @@
 import UIKit
 
 extension UIView {
+    
+    
     func addSubviews(_ views: UIView...) {
         for view in views { addSubview(view) }
     }
+    
     
     func pinToEdges(of superView: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
@@ -22,6 +25,7 @@ extension UIView {
             self.trailingAnchor.constraint(equalTo: superView.trailingAnchor),
             self.bottomAnchor.constraint(equalTo:   superView.bottomAnchor)
         ])
-        
     }
+    
+    
 }

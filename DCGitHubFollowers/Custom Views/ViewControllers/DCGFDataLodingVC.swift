@@ -12,6 +12,7 @@ class DCGFDataLodingVC: UIViewController {
 
     var containerView: UIView!
     
+    
     func showLoadingView() {
         containerView = UIView(frame: view.bounds)
         view.addSubview(containerView)
@@ -36,6 +37,7 @@ class DCGFDataLodingVC: UIViewController {
         activityIndicator.startAnimating()
     }
     
+    
     func dismissLoadingView() {
         DispatchQueue.main.async {
             self.containerView.removeFromSuperview()
@@ -43,10 +45,12 @@ class DCGFDataLodingVC: UIViewController {
         }
     }
     
+    
     func showEmptyStateView(with message: String, in view: UIView) {
         let emptyStateView = DCGFEmptyView(message: message)
         emptyStateView.frame = view.bounds
         view.addSubview(emptyStateView)
     }
+    
     
 }

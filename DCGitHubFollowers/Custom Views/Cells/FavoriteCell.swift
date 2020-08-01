@@ -57,4 +57,5 @@ class FavoriteCell: UITableViewCell {
         ])
     }
     
+    
 }

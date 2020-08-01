@@ -28,6 +28,7 @@ class DCGFTitleLabel: UILabel {
         self.font                   = UIFont.systemFont(ofSize: fontSize, weight: .bold)
     }
     
+    
     private func configure() {
         textColor                   = .label
         adjustsFontSizeToFitWidth   = true
@@ -36,5 +37,6 @@ class DCGFTitleLabel: UILabel {
         
         translatesAutoresizingMaskIntoConstraints = false
     }
+    
     
 }

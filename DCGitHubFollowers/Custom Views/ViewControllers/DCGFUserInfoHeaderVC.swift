@@ -11,7 +11,6 @@ import UIKit
 class DCGFUserInfoHeaderVC: UIViewController {
 
     
-    
     let avatarImageView     = DCGFAvatarImageView(frame: .zero)
     let usernameLabel       = DCGFTitleLabel(textAlignment: .left, fontSize: 34)
     let nameLabel           = DCGFSecondaryTitleLabel(fontSize: 18)
@@ -21,14 +20,17 @@ class DCGFUserInfoHeaderVC: UIViewController {
     
     var user: User!
     
+    
     init(user: User) {
         super.init(nibName: nil, bundle: nil)
         self.user = user
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

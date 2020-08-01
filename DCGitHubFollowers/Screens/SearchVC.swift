@@ -10,13 +10,13 @@ import UIKit
 
 class SearchVC: UIViewController {
 
-    
     let logoImageView               = UIImageView()
     let usernameTextField           = DCGFTextField()
     let callToActionButton          = DCGFButton(backgroundColor: .systemGreen, title: "Get Followers")
     var logoImageViewTopConstraint: NSLayoutConstraint!
     
     var isUsernameEntered: Bool { !usernameTextField.text!.isEmpty }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,7 @@ class SearchVC: UIViewController {
         configureCallToActionButton()
         createDismissKeyboardTapGesture()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,6 +74,7 @@ class SearchVC: UIViewController {
         ])
     }
     
+    
     func configureUsernameTextField() {
         view.addSubview(usernameTextField)
         usernameTextField.delegate = self
@@ -84,6 +86,7 @@ class SearchVC: UIViewController {
             usernameTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
     
     func configureCallToActionButton() {
         view.addSubview(callToActionButton)
@@ -101,9 +104,11 @@ class SearchVC: UIViewController {
 
 extension SearchVC: UITextFieldDelegate {
     
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         pushFollowerListVC()
         return true
     }
+    
     
 }

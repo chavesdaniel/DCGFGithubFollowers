@@ -132,28 +132,31 @@ class UserInfoVC: UIViewController {
 }
 
 extension UserInfoVC: DCGFRepoItemVCDelegate {
+    
+    
     func didTapGitHubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
             presentDCGFAlertOnMainThread(title: "Invalid URL", message: "The url attached to this user is invalid.", buttonTittle: "Ok")
             return
         }
-        
         self.presentSafariVC(with: url)
-        
     }
+    
+    
 }
 
 
 extension UserInfoVC: DCGFFollowerItemVCVCDelegate {
+    
+    
     func didTapGetFollowers(for user: User) {
-        
         guard user.followers != 0 else {
             presentDCGFAlertOnMainThread(title: "No followers", message: "This user has no followers. What a shame 😞", buttonTittle: "So sad")
             return
         }
-        
         delegate.didRequestFollowers(for: user.login)
         dismissVC()
     }
+    
 
 }

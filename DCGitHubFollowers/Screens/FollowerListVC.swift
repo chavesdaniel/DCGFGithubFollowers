@@ -27,15 +27,18 @@ class FollowerListVC: DCGFDataLodingVC {
     var collectionView      : UICollectionView!
     var dataSource          : UICollectionViewDiffableDataSource<Section, Follower>!
     
+    
     init(username: String) {
         super.init(nibName: nil, bundle: nil)
         self.username       = username
         title               = username
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,7 @@ class FollowerListVC: DCGFDataLodingVC {
         getFollowers(username: username, page: page)
         configureDataSource()
     }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -110,6 +114,7 @@ class FollowerListVC: DCGFDataLodingVC {
         })
     }
     
+    
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FollowerCell.reuseID, for: indexPath) as! FollowerCell
@@ -165,6 +170,7 @@ class FollowerListVC: DCGFDataLodingVC {
 
 extension FollowerListVC: UICollectionViewDelegate {
     
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         let offsetY             = scrollView.contentOffset.y
         let contentHight        = scrollView.contentSize.height
@@ -177,6 +183,7 @@ extension FollowerListVC: UICollectionViewDelegate {
             getFollowers(username: username, page: page)
         }
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let activeArray     = isSearching ? filteredFollowers : followers
@@ -193,6 +200,8 @@ extension FollowerListVC: UICollectionViewDelegate {
 }
 
 extension FollowerListVC: UISearchResultsUpdating {
+    
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let filter = searchController.searchBar.text,
             !filter.isEmpty else {
@@ -202,18 +211,18 @@ extension FollowerListVC: UISearchResultsUpdating {
                 return
                 
         }
-        
         isSearching         = true
         filteredFollowers   = followers.filter { $0.login.lowercased().contains(filter.lowercased()) }
         
         updateData(on: filteredFollowers)
-        
     }
     
 
 }
 
 extension FollowerListVC: UserInfoVCDelegate {
+    
+    
     func didRequestFollowers(for username: String) {
         self.username   = username
         title           = username
@@ -223,4 +232,6 @@ extension FollowerListVC: UserInfoVCDelegate {
         collectionView.scrollToItem(at: IndexPath(item:0 , section: 0), at: .top, animated: true)
         getFollowers(username: username, page: page)
     }
+    
+    
 }

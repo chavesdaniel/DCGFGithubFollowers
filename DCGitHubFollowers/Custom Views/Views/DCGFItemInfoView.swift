@@ -54,8 +54,8 @@ class DCGFItemInfoView: UIView {
             countLabel.heightAnchor.constraint(equalToConstant: 18)
             
         ])
-        
     }
+    
     
     func set(itemInfoType: ItemInfoType, withCount count: Int) {
         switch itemInfoType {
@@ -72,9 +72,8 @@ class DCGFItemInfoView: UIView {
             symbolImageView.image       = SFSymbols.following
             titleLabel.text             = "Following"
         }
-        
         countLabel.text             = String(count)
-        
     }
+    
     
 }

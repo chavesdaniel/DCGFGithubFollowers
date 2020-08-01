@@ -15,6 +15,7 @@ class NetworkManager {
     
     private init() {}
     
+    
     func getFollowers(for username: String, page: Int, completed: @escaping(Result<[Follower], GFError>) -> Void) {
         let endpoint = baseURL + "\(username)/followers?per_page=100&page=\(page)"
         
@@ -52,6 +53,7 @@ class NetworkManager {
         
         task.resume()
     }
+    
     
     func getUserInfo(for username: String, completed: @escaping(Result<User, GFError>) -> Void) {
         let endpoint = baseURL + "\(username)"
@@ -91,8 +93,8 @@ class NetworkManager {
         task.resume()
     }
     
+    
     func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
-        
         
         let cacheKey    = NSString(string: urlString)
         if let image    = cache.object(forKey: cacheKey) {
@@ -103,8 +105,6 @@ class NetworkManager {
             completed(nil)
             return
         }
-        
-        
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self,
@@ -124,8 +124,6 @@ class NetworkManager {
             
         }
         task.resume()
-        
-        
     }
     
 }

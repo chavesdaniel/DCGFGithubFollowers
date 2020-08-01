@@ -20,6 +20,7 @@ class DCGFAlertVC: UIViewController {
     var buttonTitle         : String?
     let padding             : CGFloat = 20
     
+    
     init(title: String, message: String, buttonTitle: String) {
         super.init(nibName: nil, bundle: nil)
         
@@ -55,6 +56,7 @@ class DCGFAlertVC: UIViewController {
         ])
     }
     
+    
     func configureTitleLabel() {
         titleLable.text = alertTitle ?? "!! Title not configured !!"
         NSLayoutConstraint.activate([
@@ -65,6 +67,7 @@ class DCGFAlertVC: UIViewController {
             
         ])
     }
+    
     
     func configureActionButton() {
         containerView.addSubview(actionButton)
@@ -79,6 +82,7 @@ class DCGFAlertVC: UIViewController {
         ])
     }
     
+    
     func configureMessageLabel() {
         containerView.addSubview(messageLabel)
         messageLabel.text           = message ?? "!! Message has note been set !!"
@@ -92,7 +96,10 @@ class DCGFAlertVC: UIViewController {
         ])
     }
     
+    
     @objc func dismissVC() {
         self.dismiss(animated: true)
     }
+    
+    
 }
