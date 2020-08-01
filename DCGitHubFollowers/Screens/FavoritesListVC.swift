@@ -33,25 +33,26 @@ class FavoritesListVC: DCGFDataLodingVC {
             guard let self = self else { return }
             
             switch result {
-                
             case .success(let favorites):
-                
-                if favorites.isEmpty {
-                    self.showEmptyStateView(with: "No Favorites?\nAdd one in the follower screen.", in: self.view)
-                } else {
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.view.bringSubviewToFront(self.tableView)
-                    }
-                }
-                
-                self.favorites = favorites
-                
+                self.updateUI(with: favorites)
             case .failure(let err):
                 self.presentDCGFAlertOnMainThread(title: "Something went wrong", message: err.rawValue, buttonTittle: "Ok")
             }
             
         }
+    }
+    
+    func updateUI(with favorites: [Follower]) {
+        if favorites.isEmpty {
+            self.showEmptyStateView(with: "No Favorites?\nAdd one in the follower screen.", in: self.view)
+        } else {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
+            }
+        }
+        
+        self.favorites = favorites
     }
     
     

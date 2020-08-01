@@ -13,7 +13,6 @@ class SearchVC: UIViewController {
     let logoImageView               = UIImageView()
     let usernameTextField           = DCGFTextField()
     let callToActionButton          = DCGFButton(backgroundColor: .systemGreen, title: "Get Followers")
-    var logoImageViewTopConstraint: NSLayoutConstraint!
     
     var isUsernameEntered: Bool { !usernameTextField.text!.isEmpty }
     
@@ -44,10 +43,8 @@ class SearchVC: UIViewController {
     @objc func pushFollowerListVC() {
         guard isUsernameEntered else {
             presentDCGFAlertOnMainThread(title: "Empy Username", message: "Please enter a username. We need to know who to look for 😀.", buttonTittle: "OK")
-
             return
         }
-        
         usernameTextField.resignFirstResponder()
         
         let followerListVC = FollowerListVC(username: usernameTextField.text!)
@@ -62,15 +59,13 @@ class SearchVC: UIViewController {
         
         let topConstraintConstant: CGFloat  = DevicesType.isiPhoneSE || DevicesType.isiPhone8Zoomed ? 20: 80
         
-        logoImageViewTopConstraint          = logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant)
-        logoImageViewTopConstraint.isActive = true
-        
         
         
         NSLayoutConstraint.activate([
-            logoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            logoImageView.heightAnchor.constraint(equalToConstant: 200),
-            logoImageView.widthAnchor.constraint(equalToConstant: 200)
+            logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: topConstraintConstant),
+            logoImageView.centerXAnchor.constraint(equalTo:             view.safeAreaLayoutGuide.centerXAnchor),
+            logoImageView.heightAnchor.constraint(equalToConstant:      200),
+            logoImageView.widthAnchor.constraint(equalToConstant:       200)
         ])
     }
     
@@ -80,10 +75,10 @@ class SearchVC: UIViewController {
         usernameTextField.delegate = self
         
         NSLayoutConstraint.activate([
-            usernameTextField.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 48),
-            usernameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            usernameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            usernameTextField.heightAnchor.constraint(equalToConstant: 50)
+            usernameTextField.topAnchor.constraint(equalTo:             logoImageView.bottomAnchor, constant: 48),
+            usernameTextField.leadingAnchor.constraint(equalTo:         view.leadingAnchor, constant: 50),
+            usernameTextField.trailingAnchor.constraint(equalTo:        view.trailingAnchor, constant: -50),
+            usernameTextField.heightAnchor.constraint(equalToConstant:  50)
         ])
     }
     
@@ -94,9 +89,9 @@ class SearchVC: UIViewController {
         callToActionButton.addTarget(self, action: #selector(pushFollowerListVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            callToActionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            callToActionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            callToActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
+            callToActionButton.bottomAnchor.constraint(equalTo:         view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
+            callToActionButton.leadingAnchor.constraint(equalTo:        view.leadingAnchor, constant: 50),
+            callToActionButton.trailingAnchor.constraint(equalTo:       view.trailingAnchor, constant: -50),
             callToActionButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }

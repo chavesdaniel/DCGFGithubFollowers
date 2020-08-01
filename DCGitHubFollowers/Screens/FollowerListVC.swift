@@ -16,22 +16,22 @@ class FollowerListVC: DCGFDataLodingVC {
     
     enum Section { case main }
     
-    var username            : String!
-    var followers           : [Follower] = []
-    var filteredFollowers   : [Follower] = []
-    var page                = 1
-    var hasMoreFollowers    = true
-    var isSearching         = false
+    var username                    : String!
+    var followers                   : [Follower] = []
+    var filteredFollowers           : [Follower] = []
+    var page                        = 1
+    var hasMoreFollowers            = true
+    var isSearching                 = false
     var isSearchingForMoreFollowers = false
     
-    var collectionView      : UICollectionView!
-    var dataSource          : UICollectionViewDiffableDataSource<Section, Follower>!
+    var collectionView              : UICollectionView!
+    var dataSource                  : UICollectionViewDiffableDataSource<Section, Follower>!
     
     
     init(username: String) {
         super.init(nibName: nil, bundle: nil)
-        self.username       = username
-        title               = username
+        self.username               = username
+        title                       = username
     }
     
     
@@ -93,17 +93,7 @@ class FollowerListVC: DCGFDataLodingVC {
             self.dismissLoadingView()
             switch result {
             case .success(let followers):
-                if followers.count < 100 { self.hasMoreFollowers = false }
-                self.followers.append(contentsOf: followers)
-                
-                if self.followers.isEmpty {
-                    let message = "This user doesn't have any followers. Go follow them 😀."
-                    DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
-                    return
-                }
-                
-                self.updateData(on: self.followers)
-                
+                self.updateUI(with: followers)
             case .failure(let error):
                 self.presentDCGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTittle: "OK")
                 break
@@ -112,6 +102,20 @@ class FollowerListVC: DCGFDataLodingVC {
             self.isSearchingForMoreFollowers = false
             
         })
+    }
+    
+    
+    func updateUI(with followers: [Follower]) {
+        if followers.count < 100 { self.hasMoreFollowers = false }
+        self.followers.append(contentsOf: followers)
+        
+        if self.followers.isEmpty {
+            let message = "This user doesn't have any followers. Go follow them 😀."
+            DispatchQueue.main.async { self.showEmptyStateView(with: message, in: self.view) }
+            return
+        }
+        
+        self.updateData(on: self.followers)
     }
     
     
@@ -144,27 +148,27 @@ class FollowerListVC: DCGFDataLodingVC {
             
             switch result {
             case .success(let user):
-                
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                
-                PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] err in
-                    guard let self = self else { return }
-                    
-                    guard let err = err else {
-                        self.presentDCGFAlertOnMainThread(title: "Success", message: "You have successfully favored this user 🎉.", buttonTittle: "Hooray!")
-                        return
-                    }
-                    
-                    self.presentDCGFAlertOnMainThread(title: "Something went wrong", message: err.rawValue, buttonTittle: "OK")
-                }
-                
+                self.addUserToFavorites(user: user)
             case .failure(let err):
                 self.presentDCGFAlertOnMainThread(title: "Something went wrong", message: err.rawValue, buttonTittle: "Ok")
             }
         }
     }
     
-    
+    func addUserToFavorites(user: User) {
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        
+        PersistenceManager.updateWith(favorite: favorite, actionType: .add) { [weak self] err in
+            guard let self = self else { return }
+            
+            guard let err = err else {
+                self.presentDCGFAlertOnMainThread(title: "Success", message: "You have successfully favored this user 🎉.", buttonTittle: "Hooray!")
+                return
+            }
+            
+            self.presentDCGFAlertOnMainThread(title: "Something went wrong", message: err.rawValue, buttonTittle: "OK")
+        }
+    }
 }
 
 

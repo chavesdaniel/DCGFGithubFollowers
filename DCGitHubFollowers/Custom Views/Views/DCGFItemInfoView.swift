@@ -38,20 +38,20 @@ class DCGFItemInfoView: UIView {
         symbolImageView.tintColor       = .label
         
         NSLayoutConstraint.activate([
-            symbolImageView.topAnchor.constraint(equalTo: self.topAnchor),
-            symbolImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            symbolImageView.heightAnchor.constraint(equalToConstant: 20),
-            symbolImageView.widthAnchor.constraint(equalToConstant: 20),
+            symbolImageView.topAnchor.constraint(equalTo:               self.topAnchor),
+            symbolImageView.leadingAnchor.constraint(equalTo:           self.leadingAnchor),
+            symbolImageView.heightAnchor.constraint(equalToConstant:    20),
+            symbolImageView.widthAnchor.constraint(equalToConstant:     20),
             
-            titleLabel.centerYAnchor.constraint(equalTo: symbolImageView.centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: symbolImageView.trailingAnchor, constant: 12),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 18),
+            titleLabel.centerYAnchor.constraint(equalTo:                symbolImageView.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo:                symbolImageView.trailingAnchor, constant: 12),
+            titleLabel.trailingAnchor.constraint(equalTo:               self.trailingAnchor),
+            titleLabel.heightAnchor.constraint(equalToConstant:         18),
             
-            countLabel.topAnchor.constraint(equalTo: symbolImageView.bottomAnchor, constant: 4),
-            countLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            countLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            countLabel.heightAnchor.constraint(equalToConstant: 18)
+            countLabel.topAnchor.constraint(equalTo:                    symbolImageView.bottomAnchor, constant: 4),
+            countLabel.leadingAnchor.constraint(equalTo:                self.leadingAnchor),
+            countLabel.trailingAnchor.constraint(equalTo:               self.trailingAnchor),
+            countLabel.heightAnchor.constraint(equalToConstant:         18)
             
         ])
     }
@@ -60,19 +60,19 @@ class DCGFItemInfoView: UIView {
     func set(itemInfoType: ItemInfoType, withCount count: Int) {
         switch itemInfoType {
         case .repos:
-            symbolImageView.image       = SFSymbols.gists
-            titleLabel.text             = "Public Repos"
+            symbolImageView.image                                       = SFSymbols.gists
+            titleLabel.text                                             = "Public Repos"
         case .gists:
-            symbolImageView.image       = SFSymbols.gists
-            titleLabel.text             = "Public Gists"
+            symbolImageView.image                                       = SFSymbols.gists
+            titleLabel.text                                             = "Public Gists"
         case .followers:
-            symbolImageView.image       = SFSymbols.followers
-            titleLabel.text             = "Followers"
+            symbolImageView.image                                       = SFSymbols.followers
+            titleLabel.text                                             = "Followers"
         case .following:
-            symbolImageView.image       = SFSymbols.following
-            titleLabel.text             = "Following"
+            symbolImageView.image                                       = SFSymbols.following
+            titleLabel.text                                             = "Following"
         }
-        countLabel.text             = String(count)
+        countLabel.text                                                 = String(count)
     }
     
     

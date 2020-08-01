@@ -38,6 +38,7 @@ class DCGFAlertVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black.withAlphaComponent(0.75)
+        
         configureContainerView()
         configureTitleLabel()
         configureActionButton()
@@ -60,9 +61,9 @@ class DCGFAlertVC: UIViewController {
     func configureTitleLabel() {
         titleLable.text = alertTitle ?? "!! Title not configured !!"
         NSLayoutConstraint.activate([
-            titleLable.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
-            titleLable.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            titleLable.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            titleLable.topAnchor.constraint(equalTo:            containerView.topAnchor, constant: padding),
+            titleLable.leadingAnchor.constraint(equalTo:        containerView.leadingAnchor, constant: padding),
+            titleLable.trailingAnchor.constraint(equalTo:       containerView.trailingAnchor, constant: -padding),
             titleLable.heightAnchor.constraint(equalToConstant: 28)
             
         ])
@@ -75,9 +76,9 @@ class DCGFAlertVC: UIViewController {
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            actionButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -padding),
-            actionButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            actionButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
+            actionButton.bottomAnchor.constraint(equalTo:       containerView.bottomAnchor, constant: -padding),
+            actionButton.leadingAnchor.constraint(equalTo:      containerView.leadingAnchor, constant: padding),
+            actionButton.trailingAnchor.constraint(equalTo:     containerView.trailingAnchor, constant: -padding),
             actionButton.heightAnchor.constraint(equalToConstant: 44)
         ])
     }
@@ -89,10 +90,10 @@ class DCGFAlertVC: UIViewController {
         messageLabel.numberOfLines  = 4
         
         NSLayoutConstraint.activate([
-            messageLabel.topAnchor.constraint(equalTo: titleLable.bottomAnchor, constant: 8),
-            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: padding),
-            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding),
-            messageLabel.bottomAnchor.constraint(equalTo: actionButton.topAnchor, constant: -12)
+            messageLabel.topAnchor.constraint(equalTo:          titleLable.bottomAnchor, constant: 8),
+            messageLabel.leadingAnchor.constraint(equalTo:      containerView.leadingAnchor, constant: padding),
+            messageLabel.trailingAnchor.constraint(equalTo:     containerView.trailingAnchor, constant: -padding),
+            messageLabel.bottomAnchor.constraint(equalTo:       actionButton.topAnchor, constant: -12)
         ])
     }
     

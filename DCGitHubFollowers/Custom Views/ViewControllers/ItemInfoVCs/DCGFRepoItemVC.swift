@@ -15,12 +15,12 @@ protocol DCGFRepoItemVCDelegate: class {
 
 class DCGFRepoItemVC: DCGFItemInfoVC {
     
-    weak var delegate       : DCGFRepoItemVCDelegate!
+    weak var delegate           : DCGFRepoItemVCDelegate!
     
     
-    init(user: User, delegate: DCGFRepoItemVCDelegate) {
+    init(user: User, delegate   : DCGFRepoItemVCDelegate) {
         super.init(user: user)
-        self.delegate = delegate
+        self.delegate           = delegate
     }
     
     
